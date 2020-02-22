@@ -9,6 +9,9 @@ import xiaoji.forum.forum.dto.AccessTokenDto;
 import xiaoji.forum.forum.dto.GithubUser;
 import xiaoji.forum.forum.provider.GithubProvider;
 
+import javax.servlet.http.HttpServletRequest;
+
+
 /**
  * @Author 纪钦涛
  * @Date 2020/2/19 0:04
@@ -31,7 +34,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public String callBack(@RequestParam(name="code")String code,
-                            @RequestParam(name="state")String state){
+                            @RequestParam(name="state")String state,
+                            HttpServletRequest requeset){
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setCode(code);
         accessTokenDto.setClient_id(clientId);
@@ -40,7 +44,13 @@ public class AuthorizeController {
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        System.out.println(githubUser.getName());
-        return "index";
+        if(githubUser !=null){
+            requeset.getSession().setAttribute("githubUser",githubUser);
+            return "redirect:/";
+        }
+        else {
+            return "redirect:/";
+        }
+
     }
 }
