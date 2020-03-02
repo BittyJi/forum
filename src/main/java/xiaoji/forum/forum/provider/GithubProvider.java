@@ -20,6 +20,7 @@ public class GithubProvider {
     public String getAccessToken(AccessTokenDto accessTokenDto){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
+
         okhttp3.RequestBody body = RequestBody.create(com.alibaba.fastjson.JSON.toJSONString(accessTokenDto),mediaType);
         Request request = new Request.Builder()
                 .url("https://github.com/login/oauth/access_token")
@@ -45,7 +46,7 @@ public class GithubProvider {
             GithubUser githubUser = com.alibaba.fastjson.JSON.parseObject(string, GithubUser.class);
             return  githubUser;
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
         return null;
     }
