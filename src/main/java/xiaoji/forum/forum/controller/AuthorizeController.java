@@ -11,7 +11,8 @@ import xiaoji.forum.forum.mapper.UserMapper;
 import xiaoji.forum.forum.model.User;
 import xiaoji.forum.forum.provider.GithubProvider;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 
@@ -41,7 +42,7 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callBack(@RequestParam(name="code")String code,
                             @RequestParam(name="state")String state,
-                            HttpServletRequest requeset){
+                            HttpServletResponse response){
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setCode(code);
         accessTokenDto.setClient_id(clientId);
@@ -52,13 +53,14 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser !=null){
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.Insert(user);
-            requeset.getSession().setAttribute("githubUser",githubUser);
+            userMapper.insert(user);
+            response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }
         else {

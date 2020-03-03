@@ -20,7 +20,6 @@ public class GithubProvider {
     public String getAccessToken(AccessTokenDto accessTokenDto){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
-
         okhttp3.RequestBody body = RequestBody.create(com.alibaba.fastjson.JSON.toJSONString(accessTokenDto),mediaType);
         Request request = new Request.Builder()
                 .url("https://github.com/login/oauth/access_token")
