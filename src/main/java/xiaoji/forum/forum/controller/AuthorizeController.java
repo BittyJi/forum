@@ -10,8 +10,10 @@ import xiaoji.forum.forum.dto.GithubUser;
 import xiaoji.forum.forum.mapper.UserMapper;
 import xiaoji.forum.forum.model.User;
 import xiaoji.forum.forum.provider.GithubProvider;
+import xiaoji.forum.forum.service.UserService;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -37,12 +39,12 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
-    public String callBack(@RequestParam(name="code")String code,
-                            @RequestParam(name="state")String state,
-                            HttpServletResponse response){
+    public String callBack(@RequestParam(name = "code") String code,
+                           @RequestParam(name = "state") String state,
+                           HttpServletResponse response) {
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setCode(code);
         accessTokenDto.setClient_id(clientId);
@@ -51,22 +53,31 @@ public class AuthorizeController {
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if(githubUser !=null && githubUser.getId()!=null){
+        if (githubUser != null && githubUser.getId() != null) {
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatar_url());
-            userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));
+            userService.createOrUpdate(user);
+            response.addCookie(new Cookie("token", token));
             return "redirect:/";
-        }
-        else {
+        } else {
             return "redirect:/";
         }
 
+
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
+
 }

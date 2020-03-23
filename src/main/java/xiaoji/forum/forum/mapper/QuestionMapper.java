@@ -1,10 +1,8 @@
 package xiaoji.forum.forum.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 import xiaoji.forum.forum.model.Question;
 
 
@@ -25,7 +23,21 @@ public interface QuestionMapper {
     public List<Question> list(@Param(value = "offset") Integer offset,
                                @Param(value = "size") Integer size);
 
+    @Select("select * from question where creator=#{userId} limit #{offset},#{size}")
+    public List<Question> listByUserId(@Param("userId") Integer userId,
+                                       @Param(value = "offset") Integer offset,
+                                       @Param(value = "size") Integer size);
+
+
     @Select("select count(1) from question")
     Integer count();
 
+    @Select("select count(1) from question where Creator =#{userId}")
+    Integer countByUserId(@Param("userId") Integer userId);
+
+    @Select("select * from question where id=#{id}")
+    Question getById(@Param("id") Integer id);
+
+    @Update("update question set title=#{title},description=#{description},gmt_modified=#{gmtModified},tag=#{tag} where id=#{id}")
+    void update(Question question);
 }
