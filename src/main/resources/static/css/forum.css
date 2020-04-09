@@ -1,18 +1,71 @@
 
-body{
+body {
     background-color: #efefef;
+
+
 }
-.main{
+
+.topmenu {
+    margin: 30px 100px;
+}
+.info{
+    margin: 0px 100px;
+}
+.incolor{
+    color: #999999;
+}
+
+.resback {
+    background: rgb(0, 180, 239);
+}
+.resform{
+    background: #fff;
+    padding-bottom: 40px;
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
+    text-align: center;
+}
+
+.resmain {
+    border-radius: 5px;
+    width: 700px;
+    margin: 150px auto;
+    background-color: #fff;
+    border: 1px solid #b3b3b3;
+    border-radius: 15px;
+}
+
+.mod-body {
+    padding: 50px 60px;
+}
+.resbt{
+    margin-top: 10px;
+}
+.main {
     background-color: white;
-    margin: 30px;
+    margin: 50px 100px;
 }
-.btn-publish{
+
+
+.btn-publish {
     float: right;
     margin-bottom: 15px;
 }
-.media-object{
+
+.btn-comment {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.media-object {
     width: 40px;
     height: 40px;
+}
+
+.media-body {
+    padding-top: 3px;
 }
 
 .text_desc {
@@ -21,10 +74,88 @@ body{
     color: #999;
 }
 
-.profile .section{
+.profile .section {
     margin-top: 15px;
 }
-.forum-menu{
+
+.forum-menu {
     color: #999999;
     font-size: 13px;
+}
+
+.comment {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-sub {
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eeeeee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.comment-sub .btn {
+    margin: 10px 0;
+}
+
+.question-tag {
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.question-ralated {
+    margin-left: 0;
+    line-height: 20px;
+    font-size: 12px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.question-title {
+    margin-top: 25px;
+}
+
+.gao {
+    top: 4px;
+}
+.infodi {
+   margin-top: 5px;
+}
+
+.di {
+    margin-top: 0px;
+}
+
+.menu {
+    color: #999999;
+    margin-top: 5px;
+}
+
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+
+}
+
+.menu .active {
+    color: #499ef3;
+}
+
+.menu .icon:hover {
+    color: #499ef3;
+}
+
+.shuxian {
+    border-right: 1px solid #eee;
+}
+
+.navbtn{
+    margin: 8px;
+}
+.countfont{
+    margin-left: -12px;
+    font-size: 21px;
 }

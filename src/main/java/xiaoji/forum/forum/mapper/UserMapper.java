@@ -29,4 +29,12 @@ public interface UserMapper {
 
     @Update("update user set name=#{name},token=#{token},gmt_modified=#{gmtModified},avatar_url=#{avatarUrl} where id=#{id}")
     void update(User user);
+
+
+    @Select("<script> select * from user where id in" +
+            "  <foreach collection='list' item='userIds' open='(' separator=',' close=')'>" +
+            "    #{userIds}" +
+            "  </foreach>" +
+            "</script>")
+    List<User> selectByComList(List<Integer> userIds);
 }

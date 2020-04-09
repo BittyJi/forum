@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import xiaoji.forum.forum.dto.PaginationDto;
+import xiaoji.forum.forum.enums.NotificationStatusEnum;
 import xiaoji.forum.forum.model.User;
+import xiaoji.forum.forum.service.NotificationService;
 import xiaoji.forum.forum.service.QuestionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,12 +26,15 @@ public class ProfileController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
                           Model model,
                           HttpServletRequest request,
                           @RequestParam(name = "page", defaultValue = "1") Integer page,
-                          @RequestParam(name = "size", defaultValue = "2") Integer size) {
+                          @RequestParam(name = "size", defaultValue = "5") Integer size) {
         User user = (User)request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
@@ -38,12 +43,16 @@ public class ProfileController {
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我发起的提问");
+            PaginationDto paginationDto = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination", paginationDto);
         } else if ("replies".equals(action)) {
+            PaginationDto paginationDto = notificationService.list(user.getId(), page, size);
+            System.out.println(paginationDto);
+            model.addAttribute("pagination", paginationDto);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新的回复");
         }
-        PaginationDto paginationDto = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination", paginationDto);
+
         return "profile";
     }
 }

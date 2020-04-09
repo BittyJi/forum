@@ -53,6 +53,7 @@ public class PublishController {
             HttpServletRequest request,
             Model model
     ) {
+
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);

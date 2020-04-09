@@ -77,6 +77,7 @@ public class AuthorizeController {
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        request.getSession().invalidate();
         return "redirect:/";
     }
 

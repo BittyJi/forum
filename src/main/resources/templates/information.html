@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> 发布——Xiaoji 论坛</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/forum.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/forum.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main info">
+    <div class="row">
+        <h3 class="text-center">用户设置</h3>
+        <hr>
+        <form class="form-horizontal" action="/information" method="post">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">昵称：</label>
+                <div class="col-sm-6 infodi">
+                    <input type="text" class="text" id="userName" name="userName" placeholder="昵称"
+                           th:value="${session.account!=null ? session.account.userName : ''}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Email：</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" name="email"
+                       th:text="${session.account!=null ? session.account.email : 'email@example.com'}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-2 control-label">密码：</label>
+                <div class="col-sm-4 infodi">
+                    <input type="password" class="form-control " id="inputPassword" name="userPwd">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputPassword" class="col-sm-2 control-label">性别：</label>
+
+                <div class="col-sm-3 infodi">
+                    <label>
+                        <input name="sex" value="1" type="radio"
+                               th:checked="${session.account.sex ==1}"/> 男 </label>
+                    <label>
+                        <input name="sex" value="2" type="radio"
+                               th:checked="${session.account.sex == 2}"/> 女 </label>
+                    <label>
+                        <input name="sex" value="0" type="radio"
+                               th:checked="${session.account.sex == 0}"/> 保密 </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">联系方式：</label>
+                <div class="col-sm-6 infodi">
+                    <input type="text" placeholder="您还没有绑定手机号" id="iphone" name="iphone"
+                           th:value="${session.account!=null ? session.account.iphone : ''}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">创建日期：</label>
+                <div class="col-sm-5">
+                    <p class="form-control-static"  th:text="${#dates.format(session.account.gmtCreate,'yyyy-MM-dd HH:mm')}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">个性网站：</label>
+                <div class="col-sm-5">
+                    <p class="form-control-static">https://search.cn/people/ <input type="text" th:value="${session.account!=null ? session.account.userName : 'example'}">
+                    <p class="incolor">可输入 4~20 位的英文或数字, 30 天内只能修改一次</p>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <button type="submit" class="btn btn-default pull-right" onclick="return istrue()">修改</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
